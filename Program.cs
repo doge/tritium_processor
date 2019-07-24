@@ -11,32 +11,6 @@ namespace tritium_processor
         {
             Console.Title = "tritium_processor";
 
-            var directory = "";
-            var binDirectory = Directory.GetCurrentDirectory() + "/bin";
-            var pathFile = binDirectory + "/path.txt";
-
-            if (!Directory.Exists(binDirectory))
-            {
-                Directory.CreateDirectory(binDirectory);
-            }
-
-            if (!File.Exists(pathFile))
-            {
-                Console.Write("Please input your root redacted directory: ");
-                directory = Console.ReadLine() + @"\data\images";
-
-                File.WriteAllText(pathFile, directory);
-            }
-            else
-            {
-                directory = File.ReadAllText(pathFile);
-            }
-
-            if (!Directory.Exists(directory))
-            {
-                Directory.CreateDirectory(directory);
-            }
-
             var parser = new CommandLineParser<Options>();
 
             parser.Configure(opt => opt.Red)  .Name("r", "red")    .Description("Red value.").Default(0);
@@ -58,6 +32,33 @@ namespace tritium_processor
             else
             {
                 Funcs func = new Funcs();
+
+                var directory = "";
+                var binDirectory = Directory.GetCurrentDirectory() + "/bin";
+                var pathFile = binDirectory + "/path.txt";
+
+                if (!Directory.Exists(binDirectory))
+                {
+                    Directory.CreateDirectory(binDirectory);
+                }
+
+                if (!File.Exists(pathFile))
+                {
+                    Console.Write("Please input your root redacted directory: ");
+                    directory = Console.ReadLine() + @"\data\images";
+
+                    File.WriteAllText(pathFile, directory);
+                }
+                else
+                {
+                    directory = File.ReadAllText(pathFile);
+                }
+
+                if (!Directory.Exists(directory))
+                {
+                    Directory.CreateDirectory(directory);
+                }
+
                 var programOptions = result.Result;
 
                 if (programOptions.Reset)
