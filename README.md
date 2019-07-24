@@ -22,5 +22,5 @@ then follow the onscreen instructions
 
 ## credits
 
-[MatthiWare (CommandLineParser)](https://github.com/MatthiWare/CommandLineParser.Core)
+[MatthiWare (CommandLineParser)](https://github.com/MatthiWare/CommandLineParser.Core) <br/>
 [ImageProcessor](https://imageprocessor.org/)
