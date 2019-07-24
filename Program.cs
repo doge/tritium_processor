@@ -1,10 +1,7 @@
 ﻿using MatthiWare.CommandLine;
-using ImageProcessor;
 using System;
 using System.IO;
 using System.Drawing;
-using System.Threading;
-using System.Diagnostics;
 
 namespace tritium_processor
 {
@@ -13,6 +10,7 @@ namespace tritium_processor
         static void Main(string[] args)
         {
             Console.Title = "tritium_processor";
+
             var binDirectory = Directory.GetCurrentDirectory() + "/bin";
 
             if (!Directory.Exists(binDirectory))
@@ -57,6 +55,8 @@ namespace tritium_processor
                         conv.WriteBytesToFile(conv.ImageToByteArray(Properties.Resources.___gmtl_t6_attach_tritium_red_74df00e5), "~-gmtl_t6_attach_tritium_red~74df00e5");
                         conv.WriteBytesToFile(conv.ImageToByteArray(Properties.Resources.___gmtl_t6_attach_tritium_wht_74df00e5), "~-gmtl_t6_attach_tritium_wht~74df00e5");
                         conv.WriteBytesToFile(conv.ImageToByteArray(Properties.Resources.mtl_t6_attach_tritium_red_text), "mtl_t6_attach_tritium_red_text");
+
+                        MoveToRedactedFolder();
                     }
                     catch(Exception e)
                     {
@@ -88,53 +88,62 @@ namespace tritium_processor
                         byte[] mtl_t6_attach_tritium_red_text = conv.ProcessImage(conv.ImageToByteArray(Properties.Resources.mtl_t6_attach_tritium_red_text), col);
                         conv.WriteBytesToFile(mtl_t6_attach_tritium_red_text, "mtl_t6_attach_tritium_red_text");
 
-                        Console.Write("Would you like the tritiums to be moved to your redacted folder? [y/n]: ");
-                        var input = Console.ReadLine().ToLower();
-                        if(input == "y" || input == "yes")
-                        {
-                            var directory = "";
-                            var pathFile = binDirectory + "/path.txt";
+                        MoveToRedactedFolder();
 
-                            if (!File.Exists(pathFile))
-                            {
-                                Console.Write("Please input your root redacted directory: ");
-                                directory = Console.ReadLine() + "/data/images";
+                        Console.ReadKey();
 
-                                File.WriteAllText(pathFile, directory);
-                            }
-                            else
-                            {
-                                directory = File.ReadAllText(pathFile);
-                            }
-
-                            if (!Directory.Exists(directory))
-                            {
-                                Directory.CreateDirectory(directory);
-                            }
-
-                            var files = Directory.GetFiles(binDirectory);
-                            foreach(var file in files)
-                            {
-                                if (Path.GetFileName(file) != "path.txt")
-                                {
-                                    if (File.Exists(directory + "/" + Path.GetFileName(file)))
-                                    {
-                                        File.Delete(directory + "/" + Path.GetFileName(file));
-                                    }
-
-                                    File.Copy(file, directory + "/" + Path.GetFileName(file));
-
-                                    Console.WriteLine($"moved {Path.GetFileName(file)} to {directory}");
-                                }
-                            }
-
-                            Console.ReadKey();
-                        }
                     }
                     catch(Exception e)
                     {
                         Console.WriteLine(e);
                         Console.ReadKey();
+                    }
+                }
+            }
+        }
+
+
+        private static void MoveToRedactedFolder()
+        {
+            var binDirectory = Directory.GetCurrentDirectory() + "/bin";
+
+            Console.Write("Would you like the tritiums to be moved to your redacted folder? [y/n]: ");
+            var input = Console.ReadLine().ToLower();
+            if (input == "y" || input == "yes")
+            {
+                var directory = "";
+                var pathFile = binDirectory + "/path.txt";
+
+                if (!File.Exists(pathFile))
+                {
+                    Console.Write("Please input your root redacted directory: ");
+                    directory = Console.ReadLine() + "/data/images";
+
+                    File.WriteAllText(pathFile, directory);
+                }
+                else
+                {
+                    directory = File.ReadAllText(pathFile);
+                }
+
+                if (!Directory.Exists(directory))
+                {
+                    Directory.CreateDirectory(directory);
+                }
+
+                var files = Directory.GetFiles(binDirectory);
+                foreach (var file in files)
+                {
+                    if (Path.GetFileName(file) != "path.txt")
+                    {
+                        if (File.Exists(directory + "/" + Path.GetFileName(file)))
+                        {
+                            File.Delete(directory + "/" + Path.GetFileName(file));
+                        }
+
+                        File.Copy(file, directory + "/" + Path.GetFileName(file));
+
+                        Console.WriteLine($"moved {Path.GetFileName(file)} to {directory}");
                     }
                 }
             }
