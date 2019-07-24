@@ -33,39 +33,14 @@ namespace tritium_processor
             {
                 Funcs func = new Funcs();
 
-                var directory = "";
-                var binDirectory = Directory.GetCurrentDirectory() + "/bin";
-                var pathFile = binDirectory + "/path.txt";
-
-                if (!Directory.Exists(binDirectory))
-                {
-                    Directory.CreateDirectory(binDirectory);
-                }
-
-                if (!File.Exists(pathFile))
-                {
-                    Console.Write("Please input your root redacted directory: ");
-                    directory = Console.ReadLine() + @"\data\images";
-
-                    File.WriteAllText(pathFile, directory);
-                }
-                else
-                {
-                    directory = File.ReadAllText(pathFile);
-                }
-
-                if (!Directory.Exists(directory))
-                {
-                    Directory.CreateDirectory(directory);
-                }
-
+                var directory = func.CheckAndReturnDirectories();
                 var programOptions = result.Result;
 
                 if (programOptions.Reset)
                 {
                     try
                     {
-                        func.DeleteExistingTritiums(directory);
+                        func.DeleteExistingTritiums(directory[0]);
                     }
                     catch(Exception e)
                     {
@@ -97,7 +72,7 @@ namespace tritium_processor
                         byte[] mtl_t6_attach_tritium_red_text = func.ProcessImage(func.ImageToByteArray(Properties.Resources.mtl_t6_attach_tritium_red_text), col);
                         func.WriteBytesToFile(mtl_t6_attach_tritium_red_text, "mtl_t6_attach_tritium_red_text.png");
 
-                        func.MoveToRedactedFolder(directory, binDirectory);
+                        func.MoveToRedactedFolder(directory[0], directory[1]);
 
                     }
                     catch(Exception e)

@@ -62,7 +62,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Convert.cs" />
+    <Compile Include="Funcs.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -82,28 +82,28 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="default images\~~-gmtl_t6_attach_tritium_red~74df00e5.png" />
+    <None Include="DefaultImages\~~-gmtl_t6_attach_tritium_red~74df00e5.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="default images\~~-gmtl_t6_attach_tritium_wht~74df00e5.png" />
+    <None Include="DefaultImages\~~-gmtl_t6_attach_tritium_wht~74df00e5.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="default images\~-gmtl_t6_attach_tritium_grn_col.png" />
+    <None Include="DefaultImages\~-gmtl_t6_attach_tritium_grn_col.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="default images\~-gmtl_t6_attach_tritium_red_col.png" />
+    <None Include="DefaultImages\~-gmtl_t6_attach_tritium_red_col.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="default images\~-gmtl_t6_attach_tritium_wht_col.png" />
+    <None Include="DefaultImages\~-gmtl_t6_attach_tritium_wht_col.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="default images\mtl_t6_attach_tritium_grn_glo.png" />
+    <None Include="DefaultImages\mtl_t6_attach_tritium_grn_glo.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="default images\mtl_t6_attach_tritium_red_glo.png" />
+    <None Include="DefaultImages\mtl_t6_attach_tritium_red_glo.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="default images\mtl_t6_attach_tritium_red_text.png" />
+    <None Include="DefaultImages\mtl_t6_attach_tritium_red_text.png" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon.ico" />

@@ -63,7 +63,7 @@ namespace tritium_processor
                 }
             }
 
-            Console.WriteLine("All existing tritiums delete.");
+            Console.WriteLine("All existing tritiums deleted.");
             Console.ReadKey();
         }
 
@@ -92,6 +92,37 @@ namespace tritium_processor
                 Console.WriteLine("All tritiums moved successfully.");
                 Console.ReadKey();
             }
+        }
+
+        public string[] CheckAndReturnDirectories()
+        {
+            var directory = "";
+            var binDirectory = Directory.GetCurrentDirectory() + "/bin";
+            var pathFile = binDirectory + "/path.txt";
+
+            if (!Directory.Exists(binDirectory))
+            {
+                Directory.CreateDirectory(binDirectory);
+            }
+
+            if (!File.Exists(pathFile))
+            {
+                Console.Write("Please input your root redacted directory: ");
+                directory = Console.ReadLine() + @"\data\images";
+
+                File.WriteAllText(pathFile, directory);
+            }
+            else
+            {
+                directory = File.ReadAllText(pathFile);
+            }
+
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+
+            return new string[] { directory, binDirectory };
         }
     }
 }
