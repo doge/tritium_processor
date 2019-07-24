@@ -6,15 +6,21 @@ using System.Threading;
 
 namespace tritium_processor
 {
-    class Convert
+    class Funcs
     {
-        public byte[] ImageToByteArray(Image imageIn)
+        public byte[] ImageToByteArray(Image image)
         {
-            using (var ms = new MemoryStream())
+            using (var memoryStream = new MemoryStream())
             {
-                imageIn.Save(ms, imageIn.RawFormat);
-                return ms.ToArray();
+                image.Save(memoryStream, image.RawFormat);
+                return memoryStream.ToArray();
             }
+        }
+
+        public void WriteBytesToFile(byte[] bytes, string fileName)
+        {
+            File.WriteAllBytes(Directory.GetCurrentDirectory() + $"/bin/{ fileName }", bytes);
+            Console.WriteLine($"wrote { fileName } to { Directory.GetCurrentDirectory() }\\bin");
         }
 
         public byte[] ProcessImage(byte[] photoBytes, Color color)
@@ -38,12 +44,54 @@ namespace tritium_processor
             return null;
         }
 
-        public void WriteBytesToFile(byte[] bytes, string fileName)
+        public void DeleteExistingTritiums(string directory)
         {
-            File.WriteAllBytes(Directory.GetCurrentDirectory() + $"/bin/{ fileName }.png", bytes);
-            Console.WriteLine($"wrote { fileName }.png to { Directory.GetCurrentDirectory() }\\bin");
+            var files = Directory.GetFiles(directory);
+            string[] tritiums = { "mtl_t6_attach_tritium_red_glo.png", "mtl_t6_attach_tritium_grn_glo.png", "~-gmtl_t6_attach_tritium_grn_col.png", "~-gmtl_t6_attach_tritium_red_col.png",
+                  "~-gmtl_t6_attach_tritium_wht_col.png", "~~-gmtl_t6_attach_tritium_red~74df00e5.png", "~~-gmtl_t6_attach_tritium_wht~74df00e5.png", "mtl_t6_attach_tritium_red_text.png" };
 
-            Thread.Sleep(100);
+            foreach (var file in files)
+            {
+                foreach(var tritium in tritiums)
+                {
+                    if (Path.GetFileName(file) == tritium)
+                    {
+                        File.Delete(file);
+
+                        Console.WriteLine($"deleted { Path.GetFileName(file) } from { directory }");
+                    }
+                }
+            }
+
+            Console.WriteLine("All existing tritiums delete.");
+            Console.ReadKey();
+        }
+
+        public void MoveToRedactedFolder(string directory, string binDirectory)
+        {
+            Console.Write("Would you like the tritiums to be moved to your redacted folder? [y/n]: ");
+            var input = Console.ReadLine().ToLower();
+            if (input == "y" || input == "yes")
+            {
+                var files = Directory.GetFiles(binDirectory);
+                foreach (var file in files)
+                {
+                    if (Path.GetFileName(file) != "path.txt")
+                    {
+                        if (File.Exists(directory + "/" + Path.GetFileName(file)))
+                        {
+                            File.Delete(directory + "/" + Path.GetFileName(file));
+                        }
+
+                        File.Copy(file, directory + "/" + Path.GetFileName(file));
+
+                        Console.WriteLine($"moved {Path.GetFileName(file)} to {directory}");
+                    }
+                }
+
+                Console.WriteLine("All tritiums moved successfully.");
+                Console.ReadKey();
+            }
         }
     }
 }

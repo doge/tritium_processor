@@ -3,12 +3,12 @@ a tool to change tritium colors for call of duty: black ops 2 redacted
 
 ## arguments
 
-|  argument |           description         |     type      |      required     |
-|:---------:|:-----------------------------:|:-------------:|:-----------------:|
-| r         | red value                     |       int     |         y         |
-| g         | green value                   |       int     |         y         |
-| b         | blue value                    |       int     |         y         |
-| d         | restore default tritiums      |      bool     |         n         |
+|  argument |           description         |     type      |
+|:---------:|:-----------------------------:|:-------------:|
+| r         | red value                     |       int     |
+| g         | green value                   |       int     |
+| b         | blue value                    |       int     |
+| d         | restore default tritiums      |      bool     |
 
 ## usage
 
@@ -19,3 +19,8 @@ tritium_processor.exe -r <value> -g <value> -b <value>
 ```
 
 then follow the onscreen instructions
+
+## credits
+
+[MatthiWare (CommandLineParser)](https://github.com/MatthiWare/CommandLineParser.Core)
+[ImageProcessor](https://imageprocessor.org/)
